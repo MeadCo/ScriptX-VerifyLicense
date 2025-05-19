@@ -95,7 +95,7 @@
 	function handleDetails() {
 	if (typeof window !== 'undefined') {
 	sessionStorage.setItem('licenseData', JSON.stringify(loadedLicense));
-	window.location.href = '/print';
+	window.location.href = 'print.html';
 	}
 	}
 </script>
@@ -103,7 +103,7 @@
 <div class="card">
 	<div class="header">
 		<h2>MeadCo ScriptX License Verification</h2>
-		<h3>v1.0.0 using ScriptX Services for Windows PC v{serviceVersion}</h3>
+		<h3>v1.0.6 using ScriptX Services for Windows PC v{serviceVersion}</h3>
 	</div>
 
 	<div class="form-group with-label">
@@ -157,7 +157,7 @@
 </div>
 
 <!-- Required to make the route discoverable to prerendering -->
-<a href="/print" style="display:none">Print</a>
+<a href="print" style="display:none">Print</a>
 
 
 <!-- Add this after the card div closing tag -->

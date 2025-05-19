@@ -1,0 +1,1 @@
+import{m as o,l as n,A as c,t as l}from"./D-wryjgi.js";function u(t){throw new Error("https://svelte.dev/e/lifecycle_outside_component")}function r(t){n===null&&u(),c&&n.l!==null?a(n).m.push(t):o(()=>{const e=l(t);if(typeof e=="function")return e})}function a(t){var e=t.l;return e.u??(e.u={a:[],b:[],m:[]})}export{r as o};

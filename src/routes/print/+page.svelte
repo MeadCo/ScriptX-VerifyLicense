@@ -32,7 +32,7 @@
 	  licenseData.to = licenseData.to.split('T')[0];
 
       // Clear the stored data to prevent access after refresh
-      // sessionStorage.removeItem('licenseData');
+      sessionStorage.removeItem('licenseData');
     }
 
     try {
@@ -54,58 +54,58 @@
 
         MeadCo.ScriptX.Printing.header = "";
         MeadCo.ScriptX.Printing.footer = "&b&p/&P&b&d";
-        MeadCo.ScriptX.Printing.pageSize = "A4";
-        MeadCo.ScriptX.Printing.orientation = "portrait";
-        MeadCo.ScriptX.Printing.printBackground = false;
+	MeadCo.ScriptX.Printing.pageSize = "A4";
+	MeadCo.ScriptX.Printing.orientation = "portrait";
+	MeadCo.ScriptX.Printing.printBackground = false;
 
-        MeadCo.ScriptX.Printing.SetMarginMeasure(1); // 1 = mm, 2 = inch
-        MeadCo.ScriptX.Printing.topMargin = 10;
-        MeadCo.ScriptX.Printing.bottomMargin = 10;
-        MeadCo.ScriptX.Printing.leftMargin = 10;
-        MeadCo.ScriptX.Printing.rightMargin = 10;
+	MeadCo.ScriptX.Printing.SetMarginMeasure(1); // 1 = mm, 2 = inch
+	MeadCo.ScriptX.Printing.topMargin = 10;
+	MeadCo.ScriptX.Printing.bottomMargin = 10;
+	MeadCo.ScriptX.Printing.leftMargin = 10;
+	MeadCo.ScriptX.Printing.rightMargin = 10;
 
-        loading = false;
-    } catch (error) {
-      console.error('Error initializing MeadCo ScriptX:', error);
-    }
+	loading = false;
+	} catch (error) {
+	console.error('Error initializing MeadCo ScriptX:', error);
+	}
 
-  });
-  
-  // Function to go back to the main page
-  function goBack() {
-    window.location.href = '/';
-  }
+	});
 
-  function openPrintDialog() {
-    console.log('Opening print dialog');
-    showDialog = true;
-    document.getElementById('printDialog').showModal();
-  }
+	// Function to go back to the main page
+	function goBack() {
+	window.location.href = '/verify';
+	}
 
-  function closeDialog() {
-    console.log('Closing dialog');
-    showDialog = false;
-    document.getElementById('printDialog').close();
-  }
+	function openPrintDialog() {
+	console.log('Opening print dialog');
+	showDialog = true;
+	document.getElementById('printDialog').showModal();
+	}
 
-  // called by the print button on the dialog
-  async function doPrint() {
-    console.log('Printing to:', selectedPrinter);
-    closeDialog();
-    try {
-       printing = true;
-       MeadCo.ScriptX.Print.printerName = selectedPrinter;
-       MeadCo.ScriptX.PrintPage(false); 
-       await MeadCo.ScriptX.WaitForSpoolingComplete();
-    }
-    catch (error) {
-      console.error('Error during print:', error);
-      alert('An error occurred while printing. Please check your printer settings.');
-    }
-    finally{
-        printing = false;
-    }
-  }
+	function closeDialog() {
+	console.log('Closing dialog');
+	showDialog = false;
+	document.getElementById('printDialog').close();
+	}
+
+	// called by the print button on the dialog
+	async function doPrint() {
+	console.log('Printing to:', selectedPrinter);
+	closeDialog();
+	try {
+	printing = true;
+	MeadCo.ScriptX.Print.printerName = selectedPrinter;
+	MeadCo.ScriptX.PrintPage(false);
+	await MeadCo.ScriptX.WaitForSpoolingComplete();
+	}
+	catch (error) {
+	console.error('Error during print:', error);
+	alert('An error occurred while printing. Please check your printer settings.');
+	}
+	finally{
+	printing = false;
+	}
+	}
 </script>
 
 <div class="print-container">
