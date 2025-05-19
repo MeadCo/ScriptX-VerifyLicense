@@ -6,7 +6,7 @@ node_modules
 .netlify
 .wrangler
 /.svelte-kit
-/build
+# allow build folder so can be downloaded /build
 
 # OS
 .DS_Store

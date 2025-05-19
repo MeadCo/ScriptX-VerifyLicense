@@ -332,13 +332,6 @@
   cursor: not-allowed;
 }
 
-.options-table {
-  width: 100%;
-  display: block;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
-  overflow: hidden;
-}
 .option-checkbox {
   float: left;
   width: 33.33%;
