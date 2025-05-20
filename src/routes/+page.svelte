@@ -109,8 +109,12 @@
 
 <div class="card">
 	<div class="header">
-		<h2>MeadCo ScriptX License Verification</h2>
-		<h3>v1.0.7 using ScriptX Services for Windows PC v{serviceVersion}</h3>
+		<h2>MeadCo ScriptX License Verification
+			<a href="https://github.com/MeadCo/ScriptX-VerifyLicense" target="_blank" rel="noopener noreferrer" style="margin-left: 0.5em;">
+				<img src="https://img.shields.io/badge/GitHub-Repo-blue?logo=github" alt="GitHub Repo" style="vertical-align: middle;"/>
+			</a>
+		</h2>
+		<h3>v1.0.8 using ScriptX Services for Windows PC v{serviceVersion}</h3>
 	</div>
 
 	<div class="form-group with-label">
@@ -177,7 +181,7 @@
 
 <style>
 	.card {
-	max-width: 480px;
+	max-width: 540px;
 	margin: 2rem auto;
 	padding: 1.5rem;
 	background: white;

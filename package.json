@@ -1,6 +1,6 @@
 {
-	"name": "ScriptXVerifyLicense",
-	"version": "1.0.7",
+	"name": "scriptx-verify-license",
+	"version": "1.0.8",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
