@@ -94,6 +94,13 @@
 	closeDialog();
 	try {
 	printing = true;
+
+	// ensure we have the required information for the selected printer
+	await new Promise((resolve,reject) => {
+	MeadCo.ScriptX.Print.deviceSettingsForAsync(selectedPrinter, resolve, reject);
+	});
+
+	// can now select it
 	MeadCo.ScriptX.Print.printerName = selectedPrinter;
 	MeadCo.ScriptX.PrintPage(false);
 	await MeadCo.ScriptX.WaitForSpoolingComplete();
