@@ -5,6 +5,7 @@
 	let loading = false;
 	let valid = false;
 	let connected = false;
+	let secureWareHouseSupported = true;
 	let loadedLicense = {
 	revision: 0,
 	from: "",
@@ -18,6 +19,7 @@
 	console.log("onMount connect lite....");
 	try {
 	MeadCo.ScriptX.Print.connectLite("http://127.0.0.1:41191","");
+	// this only works anonymously for v2.21.1.16 and later (22.05.2024)
 	serviceVersion = await new Promise((resolve,reject) => {
 	MeadCo.ScriptX.Print.serviceVersionAsync(resolve,reject);
 	});
@@ -25,8 +27,16 @@
 	console.log("serviceVersion", serviceVersion);
 	connected = true;
 	} catch (error) {
+	// if the error is unauthorised then service is running but is prior to v2.21.1.16
+	console.log("error on connect: ", error);
+	if (typeof error === "string" && error.toLowerCase().includes("unauthorized")) {
+	serviceVersion = " [.available.]";
+	connected = true;
+	secureWareHouseSupported = false;
+	} else {
 	alert(error);
 	serviceVersion = " [.failed..]";
+	}
 	}
 	});
 
@@ -45,66 +55,66 @@
 	function isValidUrl(value) {
 	try {
 	if (value.toLowerCase() === 'warehouse' || value.toLowerCase() === 'securewarehouse') {
-	if ( IsHttps()) {
-	return "securewarehouse";
-	}
-	return value;
-	}
-	const url = new URL(value);
-	return url;
-	} catch (_) {
-	return "";
-	}
-	}
+	if ( IsHttps() && secureWareHouseSupported) {
+return "securewarehouse";
+}
+return value;
+}
+const url = new URL(value);
+return url;
+} catch (_) {
+return "";
+}
+}
 
-	async function displayLicense(licenseGuid, path) {
-	console.log("start verify");
-	loading = true;
-	valid = false;
-	try {
-	let license = await new Promise((resolve,reject) => {
-	MeadCo.ScriptX.Print.Licensing.applyAsync(licenseGuid, 0, path, resolve, reject)
-	});
+async function displayLicense(licenseGuid, path) {
+console.log("start verify");
+loading = true;
+valid = false;
+try {
+let license = await new Promise((resolve,reject) => {
+MeadCo.ScriptX.Print.Licensing.applyAsync(licenseGuid, 0, path, resolve, reject)
+});
 
-	console.log('License details:', license);
+console.log('License details:', license);
 
-	// Store the full license object
-	loadedLicense = license;
-	loadedLicense.from = loadedLicense.from.split('T')[0];
-	loadedLicense.to = loadedLicense.to.split('T')[0];
-	loadedLicense.url = path;
+// Store the full license object
+loadedLicense = license;
+loadedLicense.from = loadedLicense.from.split('T')[0];
+loadedLicense.to = loadedLicense.to.split('T')[0];
+loadedLicense.url = path;
 
-	valid = true;
-	} catch (error) {
-	valid = false;
-	alert('An error occurred while verifying the license: ' + error);
-	console.error(error);
-	}
-	finally {
-	console.log("end verify");
-	loading = false;
-	}
-	}
+valid = true;
+} catch (error) {
+valid = false;
+alert('An error occurred while verifying the license: ' + error);
+console.error(error);
+}
+finally {
+console.log("end verify");
+loading = false;
+}
+}
 
-	function handleVerify() {
-	if (!isValidGuid(loadedLicense.guid)) {
-	alert('Please enter a valid GUID for the license.');
-	return;
-	}
-	url = isValidUrl(url);
-	if (url === "") {
-	alert('Please enter "warehouse" or a valid URL.');
-	return;
-	}
-	displayLicense(loadedLicense.guid, url);
-	}
+function handleVerify() {
+if (!isValidGuid(loadedLicense.guid)) {
+alert('Please enter a valid GUID for the license.');
+return;
+}
+url = isValidUrl(url);
+if (url === "") {
+alert('Please enter "warehouse" or a valid URL.');
+return;
+}
+displayLicense(loadedLicense.guid, url);
+}
 
-	function handleDetails() {
-	if (typeof window !== 'undefined') {
-	sessionStorage.setItem('licenseData', JSON.stringify(loadedLicense));
-	window.location.href = 'print.html';
-	}
-	}
+function handleDetails() {
+if (typeof window !== 'undefined') {
+sessionStorage.setItem('licenseData', JSON.stringify(loadedLicense));
+window.location.href = 'print.html';
+}
+}
 </script>
 
 <div class="card">
@@ -114,7 +124,7 @@
 				<img src="https://img.shields.io/badge/GitHub-Repo-blue?logo=github" alt="GitHub Repo" style="vertical-align: middle;"/>
 			</a>
 		</h2>
-		<h3>v1.0.8 using ScriptX Services for Windows PC v{serviceVersion}</h3>
+		<h3>v1.0.9 using ScriptX Services for Windows PC v{serviceVersion}</h3>
 	</div>
 
 	<div class="form-group with-label">
