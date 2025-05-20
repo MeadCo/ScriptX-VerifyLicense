@@ -4,6 +4,7 @@
 	let url = '';
 	let loading = false;
 	let valid = false;
+	let connected = false;
 	let loadedLicense = {
 	revision: 0,
 	from: "",
@@ -11,16 +12,22 @@
 	company: "",
 	guid: ""
 	};
-	let serviceVersion = "0.0.0";
+	let serviceVersion = " [.connecting..]";
 
 	onMount(async () => {
 	console.log("onMount connect lite....");
+	try {
 	MeadCo.ScriptX.Print.connectLite("http://127.0.0.1:41191","");
 	serviceVersion = await new Promise((resolve,reject) => {
 	MeadCo.ScriptX.Print.serviceVersionAsync(resolve,reject);
 	});
 	serviceVersion = serviceVersion.major + "." + serviceVersion.minor + "." + serviceVersion.revision;
 	console.log("serviceVersion", serviceVersion);
+	connected = true;
+	} catch (error) {
+	alert(error);
+	serviceVersion = " [.failed..]";
+	}
 	});
 
 	function isValidGuid(guid) {
@@ -37,7 +44,7 @@
 
 	function isValidUrl(value) {
 	try {
-	if (value.toLowerCase() === 'warehouse') {
+	if (value.toLowerCase() === 'warehouse' || value.toLowerCase() === 'securewarehouse') {
 	if ( IsHttps()) {
 	return "securewarehouse";
 	}
@@ -70,7 +77,7 @@
 	valid = true;
 	} catch (error) {
 	valid = false;
-	alert('An error occurred while verifying the license.');
+	alert('An error occurred while verifying the license: ' + error);
 	console.error(error);
 	}
 	finally {
@@ -103,7 +110,7 @@
 <div class="card">
 	<div class="header">
 		<h2>MeadCo ScriptX License Verification</h2>
-		<h3>v1.0.6 using ScriptX Services for Windows PC v{serviceVersion}</h3>
+		<h3>v1.0.7 using ScriptX Services for Windows PC v{serviceVersion}</h3>
 	</div>
 
 	<div class="form-group with-label">
@@ -146,10 +153,10 @@
 	</div>-->
 
 	<div class="button-row">
-		<button class="green verify-button" on:click={handleVerify} disabled={loading}>
+		<button class="green verify-button" on:click={handleVerify} disabled={loading || !connected}>
 			{loading ? 'Verifying...' : 'Verify license'}
 		</button>
-		<button class="blue print-button" on:click={handleDetails} disabled={!valid}>
+		<button class="blue print-button" on:click={handleDetails} disabled={!valid || !connected}>
 			Details ...
 		</button>
 	</div>
