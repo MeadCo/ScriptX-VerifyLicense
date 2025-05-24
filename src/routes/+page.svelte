@@ -1,5 +1,7 @@
 <script>
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
+
 
     let url = '';
     let loading = false;
@@ -112,7 +114,7 @@
     function handleDetails() {
         if (typeof window !== 'undefined') {
             sessionStorage.setItem('licenseData', JSON.stringify(loadedLicense));
-            window.location.href = 'print.html';
+            goto('/verify/print');
         }
     }
 </script>

@@ -1,4 +1,5 @@
 <script>
+    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
 
     let licenseData = null;
@@ -72,7 +73,7 @@
 
     // Function to go back to the main page
     function goBack() {
-        window.location.href = '/verify';
+        goto('/verify');
     }
 
     function openPrintDialog() {
