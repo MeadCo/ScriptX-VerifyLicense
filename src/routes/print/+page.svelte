@@ -132,7 +132,7 @@
             </div>
 
             <div class="detail-section">
-                <h2 style="margin-bottom: 0.1rem">License Details</h2>
+                <h2 class="license-details-heading">License Details</h2>
                 <div class="detail-grid" style="margin-bottom: 1rem">
                     <div class="detail-item row-item">
                         <span class="label">Downloaded from:</span>
@@ -189,10 +189,10 @@
 </div>
 
 <dialog id="printDialog" aria-labelledby="dialog-title" aria-describedby="dialog-desc">
-    <form method="dialog" style="min-width: 320px;">
+    <form method="dialog" class="dialog-content">
         <h2 id="dialog-title">Print options</h2>
         <p id="dialog-desc" class="sr-only">Select a printer to use</p>        
-        <div style="margin-bottom: 1rem;">
+        <div class="printer-select-container">
             <label for="printer-select" style="font-weight: bold;">Printer : </label>
             <select id="printer-select" bind:value={selectedPrinter} style="margin-left: 0.5rem;">
                 {#each printers as printer}
@@ -245,6 +245,18 @@
         color: #43a047;
         margin-top: 0;
         margin-bottom: 1rem;
+    }
+
+    .dialog-content {
+    min-width: 320px;
+    }
+
+    .printer-select-container {
+    margin-bottom: 1rem;
+    }
+
+    .license-details-heading {
+    margin-bottom: 0.1rem;
     }
 
     .detail-section {
@@ -326,6 +338,12 @@
         align-items: center;
         font-family: inherit;
         font-size: 1rem;
+        float: left;
+        width: 33.33%;
+        box-sizing: border-box;
+        margin-bottom: 0.5em;
+        /* For vertical alignment and spacing */
+        padding-right: 1em;        
         gap: 0.4em;
         color: #222;
         user-select: none;
@@ -335,25 +353,7 @@
         width: 1.1em;
         height: 1.1em;
         cursor: not-allowed;
-    }
-
-    .option-checkbox {
-        float: left;
-        width: 33.33%;
-        box-sizing: border-box;
-        margin-bottom: 0.5em;
-        /* For vertical alignment and spacing */
-        padding-right: 1em;
-        font-family: inherit;
-        font-size: 1rem;
-        color: #222;
-        user-select: none;
-    }
-    .option-checkbox input[type="checkbox"] {
-        width: 1.1em;
-        height: 1.1em;
-        cursor: not-allowed;
-        margin-right: 0.4em;
+        margin-right: 0.4em;        
     }
 
     .domains-list {
@@ -500,6 +500,17 @@
         100% { transform: rotate(360deg); }
     }
 
+    @media (max-width: 600px) {
+        .print-container {
+            margin: 1rem;
+            padding: 1rem;
+        }
+        
+        .detail-grid {
+            display: block;
+        }
+    }    
+
     /* Print-specific styles */
     @media print {
         .print-container {
@@ -562,6 +573,7 @@
             margin-bottom: 1rem;
             margin-top: 1rem;
         }
+
         .option-checkbox {
             display: -ms-flexbox;
             display: flex;
@@ -572,8 +584,14 @@
             gap: 0.4em;
             color: #222;
             user-select: none;
-            margin-right: 2.5rem !important;
+            margin-right: 0 !important;
+            float: left;
+            width: 33.33%;            
+            box-sizing: border-box;
+            margin-bottom: 0.5em;
+            padding-right: 1em;            
         }
+
         .option-checkbox input[type="checkbox"] {
             width: 1.1em;
             height: 1.1em;
@@ -581,16 +599,6 @@
             margin-right: 0.3em;
         }
 
-        .option-checkbox {
-            float: left;
-            width: 33.33%;
-            box-sizing: border-box;
-            margin-bottom: 0.5em;
-            padding-right: 1em;
-            font-size: 1rem;
-            color: #222;
-            margin-right: 0;
-        }
         .non-printable {
             display: -ms-flexbox;
             display: none !important;
