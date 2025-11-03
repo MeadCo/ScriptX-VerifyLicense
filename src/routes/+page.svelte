@@ -63,7 +63,7 @@
                 return value;
             }
             const url = new URL(value);
-            return url;
+            return url.href;
         } catch (_) {
             return "";
         }
@@ -126,7 +126,7 @@
                 <img src="https://img.shields.io/badge/GitHub-Repo-blue?logo=github" alt="GitHub Repo" style="vertical-align: middle;"/>
             </a>
         </h2>
-        <h3>v1.0.10 using ScriptX Services for Windows PC v{serviceVersion}</h3>
+        <h3>v1.0.11 using ScriptX Services for Windows PC v{serviceVersion}</h3>
     </div>
 
     <div class="form-group with-label">
